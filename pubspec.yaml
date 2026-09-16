@@ -1,0 +1,69 @@
+name: on_go_console
+description: >-
+  On Go admin console — the Admin and Moderator web application.
+
+  A separate front end, and a separate repository, from the On Go mobile app
+  (Client + Mechanic). The two meet at package:on_go_shared, which holds the
+  models and API contracts they exchange; see ARCHITECTURE.md in the On Go
+  repository.
+
+  The shared packages below are resolved by relative path, so the checkouts
+  have to sit side by side:
+
+    Documents/
+      On-Go/          the mobile app, which holds packages/on_go_design,
+                      packages/on_go_shared and packages/on_go_api
+      On-Go-Console/  this repository
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # The shared design system: the same palettes, theme registry, tokens and
+  # theme controller the mobile app uses, so both front ends are one theme
+  # system rather than two that resemble each other.
+  on_go_design:
+    path: ../On-Go/packages/on_go_design
+
+  # Domain models and API contracts shared with the mobile app. Everything
+  # this console sends to, or reads from, the other application goes through
+  # the interfaces in here.
+  on_go_shared:
+    path: ../On-Go/packages/on_go_shared
+
+  # The On Go API client behind those contracts — the same one the mobile app
+  # uses. The browser keeps the console's refresh token as an httpOnly cookie,
+  # so requests go out with credentials (see on_go_console_backend's api/).
+  on_go_api:
+    path: ../On-Go/packages/on_go_api
+
+  # This console's backend seam: ConsoleBackend, the in-browser services and
+  # ConsoleApi. It used to be lib/src/backend.
+  on_go_console_backend:
+    path: packages/on_go_console_backend
+  http: ^1.6.0
+
+  # Image selection for the moderator's profile photo and the mobile app's
+  # Sign In background. Reads the picked file as bytes, which is what works on
+  # the web and what the upload API will take.
+  file_picker: ^8.1.4
+
+  # Remembers the console's own appearance choice between visits.
+  shared_preferences: ^2.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

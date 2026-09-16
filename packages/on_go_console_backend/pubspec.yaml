@@ -1,0 +1,37 @@
+name: on_go_console_backend
+description: >-
+  The On Go admin console's backend seam: ConsoleBackend, the in-browser
+  implementations of every contract in package:on_go_shared, and ConsoleApi,
+  which swaps in the On Go API client (package:on_go_api) for what the API
+  serves today.
+
+  Used only by on_go_console. Nothing here imports a console screen, session
+  or theme — screens reach it through ConsoleBackend.instance.
+publish_to: 'none'
+
+version: 0.1.0
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The contracts every service here implements, and the API client that
+  # replaces them where the API is live. Both live in the mobile app's
+  # repository, checked out beside this one.
+  on_go_shared:
+    path: ../../../On-Go/packages/on_go_shared
+  on_go_api:
+    path: ../../../On-Go/packages/on_go_api
+
+  # The browser client that sends the refresh cookie (api/).
+  http: ^1.6.0
+
+  # Where the admin's urgency levels, ranks and leaderboard settings are kept
+  # in this browser until the API has a place for them (local/).
+  shared_preferences: ^2.3.2
+
+dev_dependencies:
+  flutter_lints: ^6.0.0

@@ -1,0 +1,6 @@
+# Dart package build artifacts.
+.dart_tool/
+
+# A library, not an application: its lockfile is not the source of truth for
+# the console that depends on it.
+pubspec.lock
