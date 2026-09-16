@@ -4,30 +4,30 @@ The **Admin** and **Moderator** web application.
 
 This is one of On Go's two front ends. The other is the mobile app (Client +
 Mechanic), which lives in its own repository,
-[On-Go](https://github.com/SturdyCat23/On-Go). They are separate applications:
+[On-Go](https://github.com/sktle-niel/On-Go). They are separate applications:
 neither imports the other, and everything they exchange goes through
 `package:on_go_shared`. See `ARCHITECTURE.md` in that repository.
 
 ## Checking out
 
-The shared packages are resolved here by **relative path**: `on_go_design` lives
-in the On Go repository, and `on_go_shared` and `on_go_api` live with the
-backend. All three folders have to sit side by side:
+All three shared packages — `on_go_design`, `on_go_shared` and `on_go_api` —
+live in the mobile app's repository and are resolved here by **relative path**,
+so the two checkouts have to sit side by side:
 
 ```
-On Go project/
-  on_go/                           the mobile app, and packages/on_go_design
-  on_go_console/                   this repository
-  Backend/on_go_backend/packages/  on_go_shared, on_go_api
+Documents/
+  On-Go/          the mobile app, and packages/on_go_design,
+                  packages/on_go_shared and packages/on_go_api
+  On-Go-Console/  this repository, and packages/on_go_console_backend
 ```
 
 ```bash
-git clone https://github.com/SturdyCat23/On-Go.git on_go
-git clone <this-repository> on_go_console
+git clone https://github.com/sktle-niel/On-Go.git On-Go
+git clone https://github.com/sktle-niel/On-Go-Console.git On-Go-Console
 ```
 
-If `flutter pub get` reports that it cannot find `../on_go/packages/...` or
-`../Backend/on_go_backend/packages/...`, that sibling folder is what is missing.
+If `flutter pub get` reports that it cannot find `../On-Go/packages/...`, that
+sibling checkout is what is missing.
 
 ## Running
 
@@ -46,12 +46,13 @@ the console surface, and the reverse.
 
 ```
 lib/src/app/        MaterialApp, named routes, the rail + top bar shell
-../Backend/on_go_console_backend/
-                    ← the seam: every call that will become a network call
+packages/on_go_console_backend/
+                    ← the seam: every call that leaves the console
                       (package:on_go_console_backend — ConsoleBackend, api/, local/)
 lib/src/features/
     admin/            Overview, Moderators, Add Moderator, Escalations,
-                      Audit Log, Income, Settings
+                      Audit Log, Income, Points, Ranks, Leaderboard,
+                      Performance, Settings
     moderator/        Queue, History, Accounts, Profile, Settings
     shared/           Appearance, App Background, the review dialog
     auth/             Sign In
@@ -67,8 +68,9 @@ alike. `package:on_go_design` holds the palettes, the theme registry, the
 design tokens and the `ThemeController`; both front ends drive the same
 controller.
 
-That means the console offers the same six themes — Default, Dark, Calm Blue,
-Calm Blue Dark, Ember Light, Ember — under the same names, with the same **Dark
+That means the console offers the same eight themes, in four light/dark
+families — Default and Dark Default, Calm Blue and Cold Blue, Ember Light and
+Ember, Forest and Forest Night — under the same names, with the same **Dark
 Mode**, **Dynamic Themes** (follow the clock) and **Warm Filter** controls,
 behaving identically. Add a theme to `AppThemes.all` and it appears in both
 pickers with nothing else to change.
@@ -129,8 +131,14 @@ that otherwise regresses silently on a developer's wide screen.
 - **It has URLs.** `/admin/moderators`, `/moderator/history`, and so on.
   Bookmarkable and linkable, and routing refuses a route belonging to the other
   role.
-- **The design system is the app's.** Same six themes, same colours, same Dark
-  Mode / Dynamic Themes / Warm Filter — see below.
-- **Nothing is connected yet.** The queue and the revenue ledger fill up from
-  the mobile app, so until the API exists they are empty — every empty state
-  here says so rather than looking broken.
+- **The design system is the app's.** Same eight themes, same colours, same
+  Dark Mode / Dynamic Themes / Warm Filter — see below.
+- **It talks to the On Go API**, on staging unless `ONGO_API_BASE_URL` says
+  otherwise. Sign-in, the points policy, revenue and the Sign In background are
+  served; the verification queue and the moderator directory are served behind
+  `ONGO_API_VERIFICATION` and `ONGO_API_MODERATORS`. Build with
+  `ONGO_BACKEND=local` and every contract keeps its in-browser implementation
+  instead. The seam is `ConsoleBackend`; see `ConsoleApi`.
+- **The queue and the ledger fill up from the mobile app**, so a staging
+  database with no traffic shows them empty — every empty state here says so
+  rather than looking broken.
