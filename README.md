@@ -110,8 +110,9 @@ rather than testing widths themselves.
 On a phone the console wears the **Client and Mechanic app's own chrome** —
 `OnGoAppBar`, `NotificationBell` and `OnGoBottomNav` from
 `package:on_go_design`, the same widget instances the app builds with, not
-copies. So the floating pill bar, its selected-pill animation, its spacing and
-its icons are the app's by construction and cannot drift.
+copies. So the flat bar on its hairline, the way the selected tab takes the
+brand colour, its spacing and its icons are the app's by construction and
+cannot drift.
 
 The bar carries what the original panels carried:
 
