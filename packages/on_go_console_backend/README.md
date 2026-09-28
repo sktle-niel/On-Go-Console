@@ -14,10 +14,11 @@ The console imports it as `package:on_go_console_backend/console_backend.dart`
 (and `.../api/console_api.dart`, `.../local/...`). Nothing in here imports a
 console screen, session or theme, which is what let it move out of the app.
 
-There is still one On Go API for every role: its scaffold is `../on_go_backend`,
-and the contract and client both apps use are in `../on_go_backend/packages/`.
-This package is the console's side of that seam: local stand-ins until the API
-serves a contract, then the API itself.
+There is still one On Go API for every role: the TypeScript repository
+`On-Go backend api` beside the two front ends (`sktle-niel/On-Go-WA`, deployed
+on staging). The contract and client both apps use are in
+`../../../On-Go/packages/`. This package is the console's side of that seam:
+local stand-ins until the API serves a contract, then the API itself.
 
 ## Checking it
 

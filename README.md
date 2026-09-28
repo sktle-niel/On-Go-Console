@@ -15,10 +15,12 @@ live in the mobile app's repository and are resolved here by **relative path**,
 so the two checkouts have to sit side by side:
 
 ```
-Documents/
-  On-Go/          the mobile app, and packages/on_go_design,
-                  packages/on_go_shared and packages/on_go_api
-  On-Go-Console/  this repository, and packages/on_go_console_backend
+Documents/Niel/OnGo App/
+  On-Go/                the mobile app, and packages/on_go_design,
+                        packages/on_go_shared and packages/on_go_api
+  On-Go-Console/        this repository, and packages/on_go_console_backend
+  On-Go backend api/    the API (its own repository, sktle-niel/On-Go-WA)
+  On Go Documentation/  the integration guide and openapi.json
 ```
 
 ```bash
